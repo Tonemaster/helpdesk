@@ -1,1 +1,65 @@
 aqui vamos a definir los requerimientos del proyecto
+
+1) definir entidades del helpdesk
+
+    Entidad Usuarios: por deducción un usuario es toda persona que interactue con el sistema.
+    estos usuarios tendran un rol especifico el cual les proporsionara permisos especiales y accesos
+    a las diversas funcionalidades del sistema dependiendo de dicho rol.
+
+            Atributos:
+                id_usuario, int
+                nombre_usuario, str
+                password, str
+                id_rol, int
+
+            metodos: en funcion del rol existiran los siguientes
+                Administrador: acceso a todas las funcionalidades del sistema (crear,consultar,eliminar y actualizar usuarios Y casos).
+                Técnico: acceso a las funcionalidades de casos(crear, consultar, actualizar casos y solo podra modificar sus datos de usuario a excepcion del rol).
+                Usuario: acceso unicamente a (crear y consultar casos, solo puede modificar sus datos personales a excepción del rol).
+
+
+    Entidad Roles: los roles dentro del sistema controlan el nivel de acceso y funcionalidades que puede tener un usuario.
+
+            Atributos: 
+                id_rol, int
+                nombre_rol, str
+
+            (sin metodos)
+            esta entidad es de referencia independiente para indexar en la entidad de usuario.
+
+    
+    Entidad Casos: los usuarios(*) pueden crear casos los cuales son atendidos los usuarios de [rol: tecnico] los cuales una vez se resuelva la novedad
+    se debe actualizar en helpdesk el caso resuelto.
+
+            Atributos:
+                id_caso, int
+                id_tipo_caso, int
+                descripcion, str
+                id_user_solicitante, int
+                id_user_tec, int  (null)
+                id_status, int (defaul 0)
+
+             (sin metodos)
+                Esta entidad es base para la creación de los casos y se conecta a la de Usuarios, Tipo_casos y Status.
+
+    
+    Entidad Tipo_caso: esta entidad es de referencia para clasificar los posibles casos que se pueden presentar en cualquier empresa.
+
+             Atributos:
+                 id_tipo, int
+                 tipo, str
+                 descripcion, str
+
+             (sin metodos)
+                usamos esta entidad para especificar y clasificar los tipos de caso para la entidad Casos.
+
+
+    Entidad Status: Entidad de referencia para indicar el estado actual del caso
+
+            Atributos:
+                id_status, int 
+                status, str
+
+            (sin metodos)
+            entidad de referencia para el control de seguimiento de cada uno de los casos.
+

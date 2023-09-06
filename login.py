@@ -1,82 +1,68 @@
-# Definimos el diccionario de credenciales
-roles={
-    "1":"Administrador",
-    "2":"Técnico",
-    "3":"Usuario"
-}
-credenciales = {
-    ["1","admin", "1234"],
-    ["2","tecnico", "5678"],
-    ["3","usuario", "9012"],
-    ["1","admin2","4321"]
-}
-nombre_usuario = ""
-contraseña = ""
-rol_usuario = ""
+#esta libreria me sirve para aplicar a los texto que no se deben ver en consola, ejemplo: las contraseñas
+import getpass
+#importo las entidades del archivo entidades.py
+from entidades import Usuarios,Roles
 
+# Función para consultar por nombre
+def consultar_por_nombre(nombre_usuario, diccionario):
+  for id, datos_usuario in diccionario.items():
+    if datos_usuario[1] == nombre_usuario:
+      return datos_usuario
+  return None
 
-# Definimos la función `login()`, que se encarga de verificar las credenciales del usuario
-def login():
-    global nombre_usuario
-    global contraseña
-    global rol_usuario
+def validar_login (rol,nombre_usuario,clave):
+    #limpiamos
+    datos_usuario=""
+    # Obtenemos los datos del usuario
+    datos_usuario = consultar_por_nombre(nombre_usuario, Usuarios)
 
-    # Mostramos las opciones de rol
-    for rol in roles:
-        print(f"{rol}: {roles[rol]}")
+    print(datos_usuario)
+    
 
-    # Solicitamos al usuario que ingrese su rol
-    rol_usuario = input("Seleccione un rol: ")
-
-    # Verificamos si el rol es válido
-    if rol_usuario in roles:
-        # Obtenemos las credenciales del rol seleccionado
-        credenciales_del_rol = credenciales[roles[rol_usuario]]
-
-        # Solicitamos al usuario que ingrese su nombre de usuario
-        nombre_usuario = input("Ingrese su nombre de usuario: ")
-
-        # Solicitamos al usuario que ingrese su contraseña
-        contraseña = input("Ingrese su contraseña: ")
-
-        # Verificamos si las credenciales son válidas
-        if credenciales_del_rol[0] == nombre_usuario and credenciales_del_rol[1] == contraseña:
-            print("Inicio de sesión exitoso!")
-            return True
+    if datos_usuario is not None:
+        # Imprimimos los datos del usuario
+        nombre_usuario = datos_usuario[1]
+        if datos_usuario[2]==clave:
+           pass
         else:
-            print("Credenciales incorrectas.")
-            return False
+           print("Contraseña incorrecta!")
+           return False 
+        if datos_usuario[3]==rol:
+           pass
+        else:
+           print("Rol incorrecto!")
+           return False        
+        
     else:
-        print("Rol no válido.")
+        print("El usuario no existe!")
         return False
+    return True
 
-# Definimos la función `menu()`, que se encarga de mostrar el menú principal
-def menu():
-    # Creamos un diccionario con las opciones del menú principal
-    options = {
-        "1": "Opción 1",
-        "2": "Opción 2",
-        "3": "Opción 3",
-        "4": "Salir"
-    }
 
-    # Mostramos el menú al usuario
-    for option in options:
-        print(f"{option}: {options[option]}")
+def login():
+    # Pedimos al usuario que seleccione su rol
+    print("Selecciona tu rol:")
+    for item in Roles.items():
+        print(item[0],": ",item[1][1])
+    rol_selec = int(input("Rol: "))
+    # Pedimos al usuario que ingrese su nombre de usuario
+    print("Ingresa tu nombre de usuario:")
+    nombre_user = input()
+    # Pedimos al usuario que ingrese su contraseña
+    print("Ingresa su contraseña:")
+    password = getpass.getpass()
+    print("")
 
-    # Solicitamos al usuario que seleccione una opción
-    selected_option = input("Seleccione una opción: ")
-
-    # Ejecutamos la acción asociada a la opción seleccionada
-    if selected_option in options:
-        options[selected_option]()
+    if validar_login(rol_selec,nombre_user,password):
+        print("Inicio de sesión correcto")
+        print("")
+        return True
     else:
-        print("Opción no válida.")
-
-# Llamamos a la función `login()` para iniciar sesión
+        print("Inicio de sesión incorrecto!")
+        print("")
+        return False
+    
 while not login():
     pass
-
-# Llamamos a la función `menu()` para mostrar el menú principal
-while True:
-    menu()
+   
+print("\033[1;30;42m"+"Bienvenido a helpdesk."+"\033[0;37m")
