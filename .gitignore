@@ -1,0 +1,3 @@
+*.conf
+helpdesk-venv
+.vscode/
