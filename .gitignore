@@ -1,3 +1,4 @@
 *.conf
 helpdesk-venv
 .vscode/
+.git

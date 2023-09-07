@@ -1,7 +1,8 @@
+
 #esta libreria me sirve para aplicar a los texto que no se deben ver en consola, ejemplo: las contraseñas
 import getpass
 #importo las entidades del archivo entidades.py
-from entidades import Usuarios,Roles
+from entidades import Usuarios,Roles,Status,Tipo_casos,new_tipo_caso,Casos,new_caso
 
 # Función para consultar por nombre
 def consultar_por_nombre(nombre_usuario, diccionario):
@@ -38,6 +39,8 @@ def validar_login (rol,nombre_usuario,clave):
         return False
     return True
 
+#while True :
+
 
 def login():
     # Pedimos al usuario que seleccione su rol
@@ -45,24 +48,38 @@ def login():
     for item in Roles.items():
         print(item[0],": ",item[1][1])
     rol_selec = int(input("Rol: "))
-    # Pedimos al usuario que ingrese su nombre de usuario
+        # Pedimos al usuario que ingrese su nombre de usuario
     print("Ingresa tu nombre de usuario:")
     nombre_user = input()
-    # Pedimos al usuario que ingrese su contraseña
+        # Pedimos al usuario que ingrese su contraseña
     print("Ingresa su contraseña:")
     password = getpass.getpass()
     print("")
 
     if validar_login(rol_selec,nombre_user,password):
+        print()
         print("Inicio de sesión correcto")
-        print("")
-        return True
+        print()
+        print("\033[1;30;42m"+"Bienvenido a helpdesk."+"\033[0;37m")
+        if rol_selec == 2:
+            print("Acciones permitidas")
+            for item in Tipo_casos.items():
+                print(item[0],": ",item[1][1])
+            print(Roles[2][1])
+            print(rol_selec)
+            return True
+        if rol_selec == 3:
+            print("Seleccione Novedad a Reportar")
+            for item in Tipo_casos.items():
+                print(item[0],": ",item[1][2])
+                print(Roles[2][1])
+            print(rol_selec)
+            caso = int(input("Codigo caso: "))
+            return True
     else:
         print("Inicio de sesión incorrecto!")
         print("")
         return False
-    
+            
 while not login():
-    pass
-   
-print("\033[1;30;42m"+"Bienvenido a helpdesk."+"\033[0;37m")
+    pass  
