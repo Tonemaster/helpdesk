@@ -40,6 +40,9 @@ def validar_login (rol,nombre_usuario,clave):
 
 
 def login():
+    print("=======================================================")
+    print("===                LOGIN HELPDESK                   ===")
+    print("=======================================================")
     # Pedimos al usuario que seleccione su rol
     print("Selecciona tu rol:")
     for item in Roles.items():
