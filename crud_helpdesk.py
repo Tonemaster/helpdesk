@@ -6,8 +6,8 @@ import pyodbc
 #conexion al servidor por autenticación de sql server
 server = 'TMC\SQLEXPRESS'  #aqui pone el nombre del servidor
 db = 'dbhelpdesk'          #aqui pone el nombre de la base de datos
-user = 'tmc'               #aqui pone el nombre del usuario de sql
-password = '55262152'      #aqui la contraseña del usuario sql
+user = 'tmc'               #aqui pone el nombre del usuario de sql (login)
+password = '55262152'      #aqui la contraseña del usuario sql (login)
 driver = '{SQL Server}'  
 
 # CONEXIÓN
