@@ -1,5 +1,7 @@
 # instalar 'pip install pyodbc'
 import pyodbc
+import getpass
+from datetime import datetime
 
 
 # DATOS DE CONECCIÓN
@@ -30,8 +32,8 @@ def ConsultarRoles():
                             Lista de Roles
     =============================================================
     """)
-    for fila in rows:
-        print(fila)
+    for fila in (rows):
+        print(fila[0]," ",fila[1])
     cursor.close() 
     con.close()
     return rows
@@ -127,6 +129,40 @@ def registrarTipoCaso():
     mensaje = "Inserción Exitosa" if insertTipoCaso(tipo,descripcion) else "Error al insertar!" #operador ternario
     return print(mensaje)
 
+def insertUsuario(nombre,apellido,edad,telefono,direccion,fechaNacimiento,rol,password,activo):
+    con=conexion()
+    cursor =con.cursor()
+    #set dateformat dmy;
+    cursor.execute('''
+                   insert into usuarios(nombre,apellido,edad,telefono,direccion,fecha_nacimiento,id_rol,passwords,activo) 
+                   values(?,?,?,?,?,?,?,?,?)''',nombre,apellido,edad,telefono,direccion,fechaNacimiento,rol,password,activo)
+    cursor.commit()
+    cursor.close()
+    con.close()
+    return True
+def registrarUsuario():
+    print("""
+    =============================================================
+                        Registro de Usuarios
+    =============================================================
+    """)
+    nom=input('Ingrese el Nombre de Usuario: ')
+    ape=input('Ingrese el Apellido de Usuario: ')
+    edad=input('Ingrese la edad: ')
+    tel=input('Ingrese un telefono: ')
+    direc=input('Ingrese la dirección: ')
+    fecha = input('Ingrese la fecha de nacimiento (dd/mm/yyyy): ')
+    fecha_dt = datetime.strptime(fecha, '%d/%m/%Y')
+    print("Selecciona un Rol de la lista indicando el número: ")
+    ConsultarRoles()
+    rol=input("Indique el número de Rol: ")
+    print("Ingrese su contraseña:")
+    passw = getpass.getpass()
+    activo='SI'
+    mensaje="Registro exitoso." if insertUsuario(nom,ape,edad,tel,direc,fecha_dt,rol,passw,activo) else "Error al registrar!"
+    return print(mensaje)
 # ACTUALIZAR (UPDATE)
 
 # ELIMINAR (DELETE)
+registrarRol()
+registrarUsuario()
